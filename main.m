@@ -104,13 +104,11 @@ function output = build_network(inputs,W)
         layer_1 = [layer_1 input(flip(i+3:27-i), i+1).'];
      end
      net =transpose(W{1,1})*transpose(layer_1); %first hidden layer: 512 nodes
-     layer_2 =1./(1+exp(-net));
-     net =transpose(W{1,2})*layer_2; %second hidden layer :256 nodes
-     layer_3 =1./(1+exp(-net));
-     net =transpose(W{1,3})*layer_3;%third hidden layer :128 nodes
-     layer_4 =1./(1+exp(-net));
-     net =transpose(W{1,4})*layer_4; %fourth hidden layer :64 nodes
-     layer_5 =1./(1+exp(-net));
-     net = transpose(W{1,5})*layer_5; %get output layer: 10 nodes
+     layer =1./(1+exp(-net));
+     for i = 2:layers
+        net =transpose(W{1,i})*layer; %second hidden layer :256 nodes
+        layer =1./(1+exp(-net));
+     end
+     net = transpose(W{1,layers+1})*layer; %get output layer: 10 nodes
      output = 1./(1+exp(-net));    
 end
