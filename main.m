@@ -45,8 +45,32 @@ disp(out); %output:1
 
 %initialize network
 in = double(train_image(1:784,1));
-layers = 5;
-[WM,output] = build_network(in,layers);
+%set weights
+W = {zeros(784,512)}; %store weight matrices
+for j = 1:3
+    W{j+1} = zeros(512/ (2^(j-1)),256/ (2^(j-1)));
+end
+for n = 1:512
+    weights = -1 + 2*rand(784,1);
+    W{1,1}(:,n) = weights;
+end
+for n = 1:256
+    weights = -1 + 2*rand(512,1);
+    W{1,2}(:,n) = weights;
+end
+for n = 1:128
+    weights = -1 + 2*rand(256,1);
+    W{1,3}(:,n) = weights;
+end
+for n = 1:64
+    weights = -1 + 2*rand(128,1);
+    W{1,4}(:,n) = weights;
+end
+for n = 1:10
+    weights = -1 + 2*rand(64,1);
+    W{1,5}(:,n) = weights;
+end
+output = build_network(in,W);
 disp(output);
 
 %read digits funtion
@@ -66,7 +90,7 @@ function out = neuron (O,W)
 end
 
 %network function
-function [W,output] = build_network(inputs,layers)
+function output = build_network(inputs,W)
     input = reshape(inputs,[28,28]); %read pixels into input layer
     layer_1 = [];
         layer_1 = [layer_1 input(1,:)];
@@ -79,39 +103,14 @@ function [W,output] = build_network(inputs,layers)
         layer_1 = [layer_1 input(28-i,flip(i+1:27-i))];
         layer_1 = [layer_1 input(flip(i+3:27-i), i+1).'];
      end
-     W = {zeros(784,512)}; %store weight matrices
-     for j = 1:3
-         W{j+1} = zeros(512/ (2^(j-1)),256/ (2^(j-1)));
-     end
-     for n = 1:512 %first hidden layer :512 nodes
-         weights = -1 + 2*rand(784,1);
-         W{1,1}(:,n) = weights;
-     end
-     net =transpose(W{1,1})*transpose(layer_1);
+     net =transpose(W{1,1})*transpose(layer_1); %first hidden layer: 512 nodes
      layer_2 =1./(1+exp(-net));
-     for n = 1:256 %second hidden layer :256 nodes
-         weights = -1 + 2*rand(512,1);
-         W{1,2}(:,n) = weights;
-     end
-     net =transpose(W{1,2})*layer_2;
+     net =transpose(W{1,2})*layer_2; %second hidden layer :256 nodes
      layer_3 =1./(1+exp(-net));
-     for n = 1:128 %third hidden layer :128 nodes
-         weights = -1 + 2*rand(256,1);
-         W{1,3}(:,n) = weights;
-     end
-     net =transpose(W{1,3})*layer_3;
+     net =transpose(W{1,3})*layer_3;%third hidden layer :128 nodes
      layer_4 =1./(1+exp(-net));
-     for n = 1:64 %fourth hidden layer :64 nodes
-         weights = -1 + 2*rand(128,1); 
-         W{1,4}(:,n) = weights;
-     end
-     net =transpose(W{1,4})*layer_4;
+     net =transpose(W{1,4})*layer_4; %fourth hidden layer :64 nodes
      layer_5 =1./(1+exp(-net));
-     W{5} = zeros(64,10); %get output layer: 10 nodes
-     for n = 1:10
-         weights = -1 + 2*rand(64,1);
-         W{1,5}(:,n) = weights;    
-     end
-     net = transpose(W{1,5})*layer_5;
+     net = transpose(W{1,5})*layer_5; %get output layer: 10 nodes
      output = 1./(1+exp(-net));    
 end
