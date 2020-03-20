@@ -70,7 +70,8 @@ for n = 1:10
     weights = -1 + 2*rand(64,1);
     W{1,5}(:,n) = weights;
 end
-output = build_network(in,W);
+layers = 4
+[layers_val,output] = build_network(in,W,layers);
 disp(output);
 
 %read digits funtion
@@ -90,7 +91,7 @@ function out = neuron (O,W)
 end
 
 %network function
-function output = build_network(inputs,W)
+function [layers_val,output] = build_network(inputs,W,layers)
     input = reshape(inputs,[28,28]); %read pixels into input layer
     layer_1 = [];
         layer_1 = [layer_1 input(1,:)];
@@ -103,11 +104,14 @@ function output = build_network(inputs,W)
         layer_1 = [layer_1 input(28-i,flip(i+1:27-i))];
         layer_1 = [layer_1 input(flip(i+3:27-i), i+1).'];
      end
+     layers_val{1} = layer_1.';
      net =transpose(W{1,1})*transpose(layer_1); %first hidden layer: 512 nodes
      layer =1./(1+exp(-net));
+     layers_val{2}  = layer;
      for i = 2:layers
         net =transpose(W{1,i})*layer; %second hidden layer :256 nodes
         layer =1./(1+exp(-net));
+        layers_val{i+1}  = layer;
      end
      net = transpose(W{1,layers+1})*layer; %get output layer: 10 nodes
      output = 1./(1+exp(-net));    
