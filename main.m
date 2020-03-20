@@ -1,3 +1,5 @@
+format long
+
 % load data
 load mnist-original.mat
 train_image = data(1:784,1:60000);
@@ -74,6 +76,213 @@ layers = 4
 [layers_val,output] = build_network(in,W,layers);
 disp(output);
 
+% train network test
+digit = double(train_label(1,1));
+weight = train_network(layers_val,digit,output,W,layers);
+
+%parameters
+
+%3 layers
+W = {zeros(784,512)}; %store weight matrices
+for j = 1:2
+    W{j+1} = zeros(512/ (2^(j-1)),256/ (2^(j-1)));
+end
+for n = 1:512
+    weights = -1 + 2*rand(784,1);
+    W{1,1}(:,n) = weights;
+end
+for n = 1:256
+    weights = -1 + 2*rand(512,1);
+    W{1,2}(:,n) = weights;
+end
+for n = 1:128
+    weights = -1 + 2*rand(256,1);
+    W{1,3}(:,n) = weights;
+end
+for n = 1:10
+    weights = -1 + 2*rand(128,1);
+    W{1,4}(:,n) = weights;
+end
+layers = 3;
+n = 60000;
+[rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label);
+disp(rate1);
+disp(rate2);
+
+%4 layers
+W = {zeros(784,512)}; %store weight matrices
+for j = 1:3
+    W{j+1} = zeros(512/ (2^(j-1)),256/ (2^(j-1)));
+end
+for n = 1:512
+    weights = -1 + 2*rand(784,1);
+    W{1,1}(:,n) = weights;
+end
+for n = 1:256
+    weights = -1 + 2*rand(512,1);
+    W{1,2}(:,n) = weights;
+end
+for n = 1:128
+    weights = -1 + 2*rand(256,1);
+    W{1,3}(:,n) = weights;
+end
+for n = 1:64
+    weights = -1 + 2*rand(128,1);
+    W{1,4}(:,n) = weights;
+end
+for n = 1:10
+    weights = -1 + 2*rand(64,1);
+    W{1,5}(:,n) = weights;
+end
+layers = 4;
+n = 60000;
+[rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label);
+disp(rate1);
+disp(rate2);
+
+%5 layers
+W = {zeros(784,512)}; %store weight matrices
+for j = 1:4
+    W{j+1} = zeros(512/ (2^(j-1)),256/ (2^(j-1)));
+end
+for n = 1:512
+    weights = -1 + 2*rand(784,1);
+    W{1,1}(:,n) = weights;
+end
+for n = 1:256
+    weights = -1 + 2*rand(512,1);
+    W{1,2}(:,n) = weights;
+end
+for n = 1:128
+    weights = -1 + 2*rand(256,1);
+    W{1,3}(:,n) = weights;
+end
+for n = 1:64
+    weights = -1 + 2*rand(128,1);
+    W{1,4}(:,n) = weights;
+end
+for n = 1:32
+    weights = -1 + 2*rand(64,1);
+    W{1,5}(:,n) = weights;
+end
+for n = 1:10
+    weights = -1 + 2*rand(32,1);
+    W{1,6}(:,n) = weights;
+end
+layers = 5;
+n = 60000;
+[rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label);
+disp(rate1);
+disp(rate2);
+
+%500,400,300,200,100
+W = {zeros(784,500)}; %store weight matrices
+for n = 1:500
+    weights = -1 + 2*rand(784,1);
+    W{1,1}(:,n) = weights;
+end
+for n = 1:400
+    weights = -1 + 2*rand(500,1);
+    W{1,2}(:,n) = weights;
+end
+for n = 1:300
+    weights = -1 + 2*rand(400,1);
+    W{1,3}(:,n) = weights;
+end
+for n = 1:200
+    weights = -1 + 2*rand(300,1);
+    W{1,4}(:,n) = weights;
+end
+for n = 1:100
+    weights = -1 + 2*rand(200,1);
+    W{1,5}(:,n) = weights;
+end
+for n = 1:10
+    weights = -1 + 2*rand(100,1);
+    W{1,6}(:,n) = weights;
+end
+layers = 5;
+n = 60000;
+[rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label);
+disp(rate1);
+disp(rate2);
+
+%300,200,100,50,25
+W = {zeros(784,300)}; %store weight matrices
+for n = 1:300
+    weights = -1 + 2*rand(784,1);
+    W{1,1}(:,n) = weights;
+end
+for n = 1:200
+    weights = -1 + 2*rand(300,1);
+    W{1,2}(:,n) = weights;
+end
+for n = 1:100
+    weights = -1 + 2*rand(200,1);
+    W{1,3}(:,n) = weights;
+end
+for n = 1:50
+    weights = -1 + 2*rand(100,1);
+    W{1,4}(:,n) = weights;
+end
+for n = 1:25
+    weights = -1 + 2*rand(50,1);
+    W{1,5}(:,n) = weights;
+end
+for n = 1:10
+    weights = -1 + 2*rand(25,1);
+    W{1,6}(:,n) = weights;
+end
+layers = 5;
+n = 60000;
+[rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label);
+disp(rate1);
+disp(rate2);
+
+%n = 50000
+W = {zeros(784,500)}; %store weight matrices
+for n = 1:500
+    weights = -1 + 2*rand(784,1);
+    W{1,1}(:,n) = weights;
+end
+for n = 1:400
+    weights = -1 + 2*rand(500,1);
+    W{1,2}(:,n) = weights;
+end
+for n = 1:300
+    weights = -1 + 2*rand(400,1);
+    W{1,3}(:,n) = weights;
+end
+for n = 1:200
+    weights = -1 + 2*rand(300,1);
+    W{1,4}(:,n) = weights;
+end
+for n = 1:100
+    weights = -1 + 2*rand(200,1);
+    W{1,5}(:,n) = weights;
+end
+for n = 1:10
+    weights = -1 + 2*rand(100,1);
+    W{1,6}(:,n) = weights;
+end
+layers = 5;
+n = 50000;
+[rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label);
+disp(rate1);
+disp(rate2);
+
+%40000
+n = 40000;
+[rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label);
+disp(rate1);
+disp(rate2);
+
+%30000
+n = 30000;
+[rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label);
+disp(rate1);
+disp(rate2);
+
 %read digits funtion
 function read_digit(data)
       data = reshape(data,[28,28]);
@@ -116,3 +325,65 @@ function [layers_val,output] = build_network(inputs,W,layers)
      net = transpose(W{1,layers+1})*layer; %get output layer: 10 nodes
      output = 1./(1+exp(-net));    
 end
+
+%training network
+function W_out = train_network(input_val,digit,output,W,layers)
+    output_num = size(W{1,layers+1},2);
+    target = zeros(1,output_num);
+    target(digit+1) = 1;
+    delta = zeros(1,output_num);
+    W_out = W;
+    for i = 1: output_num %adjusting weights for output layer
+        error = abs(target(i)-output(i));
+        delta(i) = output(i)*(1-output(i))*error;
+        for j = 1:size(W{1,layers},2)
+            change = 0.1*delta(i)*input_val{layers+1}(j);
+            W_out{1,layers+1}(j,i)  = W{1,layers+1}(j,i) + change;
+        end
+    end
+    for i = layers:-1:1
+        deltas = (delta*transpose(W_out{i+1})).*transpose(input_val{i+1}.*(ones(size(input_val{i+1},1),1) - input_val{i+1}));
+        delta = deltas;
+        for j = 1:size(W{1,i},1)
+            change = 0.1*delta*input_val{i}(j);
+            for k = 1:size(W{1,i},2)
+                W_out{1,i}(j,k) = W{1,i}(j,k) + change(k);
+            end
+        end
+    end
+end
+
+function [rate1,rate2] = whole(W,layers,n,train_image,test_image,train_label,test_label)
+     W_out = W;
+     for i = 1:n
+         number = randi([1,n],1);
+         input = double(train_image(1:784,number));
+         [layers_val,output] = build_network(input,W_out,layers);
+         digit = double(train_label(1,number));
+         W_out = train_network(layers_val,digit,output,W_out,layers);
+     end
+     result1 = zeros(60000,1);
+     rate1 = 0;
+     for i = 1:60000
+         digit = double(train_label(1,i));
+         input = double(train_image(1:784,i));
+         [layers_val,output] = build_network(input,W_out,layers);
+         result1(i) = find(max(output));
+         if result1(i) ~= digit
+             rate1 = rate1+1;
+         end
+     end
+     result2 = zeros(10000,1);
+     rate2 = 0;
+     for i = 1:10000
+         digit = double(test_label(1,i));
+         input = double(test_image(1:784,i));
+         [layers_val,output] = build_network(input,W_out,layers);
+         result2(i) = find(max(output));
+         if result2(i) ~= digit
+             rate2 = rate2+1;
+         end
+     end
+     
+end
+
